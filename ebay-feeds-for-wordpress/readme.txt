@@ -3,7 +3,7 @@ Plugin Name:  eBay Feeds For Wordpress
 Plugin URI:   http://bloggingdojo.com/
 Donate link:  http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Output RSS to HTML with this simple plugin. Easy to install, set up and customise.
-Version:      0.5
+Version:      0.5.1
 Author:       Rhys Wynne @ The Blogging Dojo
 Author URI:   http://bloggingdojo.com/
 
