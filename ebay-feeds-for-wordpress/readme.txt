@@ -9,7 +9,7 @@ Author URI:   http://bloggingdojo.com/
 
 
 
-Contributors: The Blogging Dojo (@bloggingdojo), Rhys Wynne (@rhyswynne), Alex Moss (@alexmoss)
+Contributors: The Blogging Dojo (@bloggingdojo), Rhys Wynne (@rhyswynne)
 Link: 
 Tags: ebay, ebay partner feeds, ebay partner network, rss feeds, affiliate marketing
 Requires at least: 3.0
