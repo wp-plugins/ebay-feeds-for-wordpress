@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.5.1
+Version:      0.5.2
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -349,7 +349,7 @@ function ebay_feeds_for_wordpress_button($buttons) {
  
 // Load the TinyMCE plugin : editor_plugin.js (wp2.5)
 function add_ebay_feeds_for_wordpress_tinymce_plugin($plugin_array) {
-	$url = trim(get_bloginfo('url'), "/")."/wp-content/plugins/ebay-feeds-for-wordpress/tinymce/editor_plugin.js";
+	$url = trim(get_bloginfo('url'), "/")."/wp-content/plugins/ebay-feeds-for-wordpress/editor_plugin.js";
    $plugin_array['ebffwplugin'] = $url;
    return $plugin_array;
 }
