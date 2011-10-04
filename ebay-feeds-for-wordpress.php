@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.5.2
+Version:      0.5.3
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -227,97 +227,6 @@ class ebay_feeds_for_wordpress_Widget_class extends WP_Widget {
 
 }
 
-/*
-	// This is the function that outputs the form to let users edit
-	// the widget's title and so on. It's an optional feature, but
-	// we'll use it because we can!
-
-	function ebay_feeds_for_wordpress_control() {
-
-
-		// Collect our widget's options.
-
-		$options = get_option('ebay_feeds_for_wordpress_widget_options');
-		$newoptions = get_option('ebay_feeds_for_wordpress_widget_options');
-
-		// This is for handing the control form submission.
-
-		if ( $_POST['ebay-feeds-for-wordpress-submit'] ) {
-
-			// Clean up control form submission options
-
-			$newoptions['widget_title'] = strip_tags(stripslashes($_POST['ebay-feeds-for-wordpress-title']));
-			$newoptions['widget_text'] = strip_tags(stripslashes($_POST['ebay-feeds-for-wordpress-text']));
-			$newoptions['widget_num'] = strip_tags(stripslashes($_POST['ebay-feeds-for-wordpress-widget-num']));
-			$newoptions['widget_feed'] = strip_tags(stripslashes($_POST['ebay-feeds-for-wordpress-widget-feed']));
-
-		}
-
-
-
-		// If original widget options do not match control form
-
-		// submission options, update them.
-
-		if ( $options != $newoptions ) {
-
-			$options = $newoptions;
-
-			update_option('ebay_feeds_for_wordpress_widget_options', $options);
-
-		}
-
-
-
-		// Format options as valid HTML. Hey, why not.
-
-		$title = htmlspecialchars($options['widget_title'], ENT_QUOTES);
-		$text = htmlspecialchars($options['widget_text'], ENT_QUOTES);
-		$feed = htmlspecialchars($options['widget_feed'], ENT_QUOTES);
-		$num = htmlspecialchars($options['widget_num'], ENT_QUOTES);
-		
-
-
-// The HTML below is the control form for editing options.
-
-?>
-
-		<div>
-
-		<label for="ebay-feeds-for-wordpress-title" style="line-height:35px;display:block;">Widget title: <input type="text" id="ebay-feeds-for-wordpress-title" name="ebay-feeds-for-wordpress-title" value="<?php echo $title; ?>" /></label>
-<?php 		echo "Options: " . $options; ?>
-		<label for="ebay-feeds-for-wordpress-text" style="line-height:35px;display:block;">Widget text: <input type="text" id="ebay-feeds-for-wordpress-text" name="ebay-feeds-for-wordpress-text" value="<?php echo $text; ?>" /></label>
-        
-                        		<label for="ebay-feeds-for-wordpress-widget-feed" style="line-height:35px;display:block;">URL Feed: <input type="text" id="ebay-feeds-for-wordpress-widget-feed" name="ebay-feeds-for-wordpress-widget-feed" value="<?php echo $feed; ?>" /></label>
-        
-        		<label for="ebay-feeds-for-wordpress-widget-num" style="line-height:35px;display:block;">Number of Items: <input type="text" id="ebay-feeds-for-wordpress-widget-num" name="ebay-feeds-for-wordpress-widget-num" value="<?php echo $num; ?>" /></label>
-                
-
-
-		<input type="hidden" name="ebay-feeds-for-wordpress-submit" id="ebay-feeds-for-wordpress-submit" value="1" />
-
-		</div>
-
-	<?php
-
-	// end of widget_mywidget_control()
-
-	}
-
-
-*/
-	// This registers the widget. About time.
-
-// wp_register_sidebar_widget('ebayfeedsforwordpress','eBay Feeds For Wordpress', 'ebay_feeds_for_wordpress_widget');
-
-
-
-	// This registers the (optional!) widget control form.
-
-//	wp_register_widget_control('ebayfeedsforwordpress','eBay Feeds For Wordpress', 'ebay_feeds_for_wordpress_control');
-
-// }
-
 add_action('widgets_init', ebay_feeds_for_wordpress_Widget);
 
 function ebay_feeds_for_wordpress_Widget(){
@@ -359,7 +268,7 @@ add_action('init', 'ebay_feeds_for_wordpress_addbuttons');
 
 add_shortcode( 'ebayfeedsforwordpress', 'ebayfeedsforwordpress_shortcode' );
 
-function ebayfeedsforwordpress_shortcode( $atts, $content = null ) {
+function ebayfeedsforwordpress_shortcode( $atts ) {
 	$url = get_option('ebay-feeds-for-wordpress-default');
 	$num = get_option('ebay-feeds-for-wordpress-default-number');
    extract( shortcode_atts( array(
@@ -371,32 +280,40 @@ function ebayfeedsforwordpress_shortcode( $atts, $content = null ) {
    return $feeddisplay;
 }
 
-function ebay_feeds_for_wordpress_notecho($url = "", $num = "") {
-$link = get_option("ebay-feeds-for-wordpress-link");
-if ($url == "")
-{
-$url = get_option('ebay-feeds-for-wordpress-default');
-}
-
-if ($num == "")
-{
-$num = get_option('ebay-feeds-for-wordpress-default-number');
-}
-
+function ebay_feeds_for_wordpress_notecho($dispurl = "", $dispnum = "") {
 include_once(ABSPATH . WPINC . '/rss.php');
-$rss = fetch_feed($url);
-$rss_items = $rss->get_items(0, $num);
+$link = get_option("ebay-feeds-for-wordpress-link");
 
-$display =  "<div class='ebayfeed'>";
-foreach ($rss_items as $item ) {
-$display .= "<h4><a href='".$item->get_permalink()."'>".$item->get_title()."</a></h4>";
-$display .= $item->get_description();
+if ($dispnum == "" || $dispnum == "null")
+{
+$dispnum = get_option('ebay-feeds-for-wordpress-default-number');
+}
+
+if ($dispurl == "" || $dispurl == "null")
+{
+$dispurl = get_option('ebay-feeds-for-wordpress-default');
+$disprss = fetch_feed($dispurl);
+$disprss_items = $disprss->get_items(0, $dispnum);
+
+} else {
+$dispurl = str_replace("&amp;", "&", $dispurl);
+$disprss = fetch_feed($dispurl);
+$disprss_items = $disprss->get_items(0, $dispnum);
+}
+
+
+$display .=  "<div class='ebayfeed'>";
+foreach ($disprss_items as $dispitem ) {
+$display .= "<h4><a href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
+$display .= $dispitem->get_description();
+$display .= "<br/>Title: " . $dispitem->get_title();
 }
 $display .= "</div>";
 if ($link == 1)
 {
 	$display .= "<a href='http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/'>eBay Feeds for WordPress</a> by <a href='http://www.bloggingdojo.com'>The Blogging Dojo</a><br/><br/>";
 }
+
 
 return $display;
 
