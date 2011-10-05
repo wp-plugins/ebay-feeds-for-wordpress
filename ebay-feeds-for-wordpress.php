@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.5.3
+Version:      0.6
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -42,7 +42,7 @@ $rss_items = $rss->get_items(0, $num);
 
 echo "<div class='ebayfeed'>";
 foreach ($rss_items as $item ) {
-echo "<h4><a href='".$item->get_permalink()."'>".$item->get_title()."</a></h4>";
+echo "<h4 class='ebayfeedtitle'><a href='".$item->get_permalink()."'  class='ebayfeedlink'>".$item->get_title()."</a></h4>";
 echo $item->get_description();
 }
 echo "</div>";
@@ -128,6 +128,16 @@ if (get_option('ebay-feeds-for-wordpress-link') == 1) { echo "checked"; } ?>
 </p>
 
 </form>
+
+<h3>Donate</h3>
+<p>I am quite lovely, and provide this software for free. If you fancy being equally, if not more lovely, then please donate to the upkeep of the plugin. I treat all that like us equally, but those who donate we <em>may</em> answer their questions quicker and we <em>may</em> take their feature requests more seriously. Just saying.</p>
+<div style="text-align: center;">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="5T2Z52C3R6DD4" />
+<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" alt="PayPal — The safer, easier way to pay online." /> <img src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" alt="" width="1" height="1" border="0" /></form>
+</div>
+
   
   <?php echo '</div>';
 
@@ -304,7 +314,7 @@ $disprss_items = $disprss->get_items(0, $dispnum);
 
 $display .=  "<div class='ebayfeed'>";
 foreach ($disprss_items as $dispitem ) {
-$display .= "<h4><a href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
+$display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
 $display .= $dispitem->get_description();
 $display .= "<br/>Title: " . $dispitem->get_title();
 }
