@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.6
+Version:      0.6.1
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -316,7 +316,6 @@ $display .=  "<div class='ebayfeed'>";
 foreach ($disprss_items as $dispitem ) {
 $display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
 $display .= $dispitem->get_description();
-$display .= "<br/>Title: " . $dispitem->get_title();
 }
 $display .= "</div>";
 if ($link == 1)
