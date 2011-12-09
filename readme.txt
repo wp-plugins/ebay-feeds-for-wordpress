@@ -26,6 +26,8 @@ eBay Feeds For WordPress allows you to quickly and easily place feeds from the e
 * Blogging Tutorials and Wordpress Plugins at [The Blogging Dojo](http://bloggingdojo.com/)
 
 == Changelog ==
+= 0.7 =
+* Updated the plugin to include information on how to place the code when you install it. Whoops!
 
 = 0.6.1 =
 * Removing some testing code I should've removed :(
@@ -48,6 +50,7 @@ eBay Feeds For WordPress allows you to quickly and easily place feeds from the e
 
 To install, please do the following:-
 
-1. Click Download on the below file and download the file to your local hard drive.
-2. Unzip the files and upload them to your wp-plugins folder, making sure they are in a sub folder.
-3. Go to Plugins > Installed Plugins and activate "eBay Feeds for WordPress".
+1. Upload the plugin to the `/wp-content/plugins/` directory or use the Add New feature
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Set the default feed and item number in the "eBay Feeds For Wordpress" Options Page.
+4. Place `[ebayfeedsforwordpress feed="" items="5"]` in any page. Place the feed URL in the "" and the number of items to display where "5" is, in any page or post (or use the button on the rich text editor).
