@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.7
+Version:      0.9
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -25,7 +25,7 @@ register_activation_hook(__FILE__,'ebay_feeds_for_wordpress_install');
 
 function ebay_feeds_for_wordpress($url = "", $num = "") {
 $link = get_option("ebay-feeds-for-wordpress-link");
-
+$blank = get_option("ebay-feeds-for-wordpress-link-open-blank");
 if ($url == "")
 {
 $url = get_option('ebay-feeds-for-wordpress-default');
@@ -42,8 +42,21 @@ $rss_items = $rss->get_items(0, $num);
 
 echo "<div class='ebayfeed'>";
 foreach ($rss_items as $item ) {
-echo "<h4 class='ebayfeedtitle'><a href='".$item->get_permalink()."'  class='ebayfeedlink'>".$item->get_title()."</a></h4>";
+echo "<h4 class='ebayfeedtitle'><a ";
+if ($blank == "1")
+{
+	echo "target='_blank' ";
+}
+
+echo "'href='".$item->get_permalink()."'  class='ebayfeedlink'>".$item->get_title()."</a></h4>";
+if ($blank == "1")
+{
 echo $item->get_description();
+} else {
+    $newdescription = str_replace('target="_blank"', '', $item->get_description());
+    echo $newdescription;
+}
+
 }
 echo "</div>";
 if ($link == 1)
@@ -98,6 +111,21 @@ function ebay_feeds_for_wordpress_options() {
 
 <tr valign="top">
 
+<th scope="row" style="width:400px"><label>Open Links In New Window?</label></th>
+
+<td><input type="checkbox" name="ebay-feeds-for-wordpress-link-open-blank" value="1"
+
+<?php 
+
+if (get_option('ebay-feeds-for-wordpress-link-open-blank') == 1) { echo "checked"; } ?>
+
+></td>
+
+</tr>
+
+
+<tr valign="top">
+
 <th scope="row" style="width:400px"><label>Link to us (optional, but appreciated)</label></th>
 
 <td><input type="checkbox" name="ebay-feeds-for-wordpress-link" value="1"
@@ -149,7 +177,7 @@ function ebay_feeds_for_wordpress_options_process() { // whitelist options
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-default' );
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-default-number' );
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-link' );
-
+  register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-link-open-blank' );
 }
 
 
@@ -293,7 +321,7 @@ function ebayfeedsforwordpress_shortcode( $atts ) {
 function ebay_feeds_for_wordpress_notecho($dispurl = "", $dispnum = "") {
 include_once(ABSPATH . WPINC . '/rss.php');
 $link = get_option("ebay-feeds-for-wordpress-link");
-
+$blank = get_option("ebay-feeds-for-wordpress-link-open-blank");
 if ($dispnum == "" || $dispnum == "null")
 {
 $dispnum = get_option('ebay-feeds-for-wordpress-default-number');
@@ -314,8 +342,19 @@ $disprss_items = $disprss->get_items(0, $dispnum);
 
 $display .=  "<div class='ebayfeed'>";
 foreach ($disprss_items as $dispitem ) {
-$display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
+$display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' ";
+if ($blank == "1")
+{
+	$display .= "target='_blank' ";
+}
+$display .= "href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
+if ($blank == "1")
+{
 $display .= $dispitem->get_description();
+} else {
+    $newdescription = str_replace('target="_blank"', '', $dispitem->get_description());
+    $display .= $newdescription;
+}
 }
 $display .= "</div>";
 if ($link == 1)
@@ -332,6 +371,7 @@ function ebay_feeds_for_wordpress_install() {
 		add_option('ebay-feeds-for-wordpress-default', 'http://rest.ebay.com/epn/v1/find/item.rss?keyword=Ferrari&categoryId1=18180&sortOrder=BestMatch&programid=15&campaignid=5336886189&toolid=10039&listingType1=All&lgeo=1&descriptionSearch=true&feedType=rss');
 		add_option('ebay-feeds-for-wordpress-default-number', 3);
 		add_option('ebay-feeds-for-wordpress-link', 0);
+		add_option('ebay-feeds-for-wordpress-link-open-blank', 0);
 }
 
 ?>
