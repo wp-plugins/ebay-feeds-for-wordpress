@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.9
+Version:      0.9.1
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
 
@@ -20,6 +20,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 Credit goes to Magpie RSS for RSS to PHP integration: http://magpierss.sourceforge.net/
 
 */
+
+define("PLUGIN_NAME","eBay Feeds For WordPress");
+define("PLUGIN_TAGLINE","Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.");
+define("PLUGIN_URL","http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/");
+define("EXTEND_URL","http://wordpress.org/extend/plugins/ebay-feeds-for-wordpress/");
+define("AUTHOR_TWITTER","rhyswynne");
+define("DONATE_LINK","https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F852ZPEANV7C6");
 
 register_activation_hook(__FILE__,'ebay_feeds_for_wordpress_install');
 
@@ -69,7 +76,13 @@ if ( is_admin() ){ // admin actions
 
   add_action('admin_menu', 'ebay_feeds_for_wordpress_menus');
   add_action( 'admin_init', 'ebay_feeds_for_wordpress_options_process' );
+  add_action( 'admin_init', 'ebay_feeds_for_wordpress_add_admin_stylesheet' );
   
+}
+
+function ebay_feeds_for_wordpress_add_admin_stylesheet() {
+        wp_register_style( 'ebay-feeds-for-wordpress-style', plugins_url('ebay-feeds-for-wordpress-admin.css', __FILE__) );
+        wp_enqueue_style( 'ebay-feeds-for-wordpress-style' );
 }
 
 function ebay_feeds_for_wordpress_menus() {
@@ -79,11 +92,36 @@ function ebay_feeds_for_wordpress_menus() {
 }
 
 function ebay_feeds_for_wordpress_options() {
+?>
+<div class="pea_admin_wrap">
+        <div class="pea_admin_top">
+            <h1><?php echo PLUGIN_NAME?> <small> - <?php echo PLUGIN_TAGLINE?></small></h1>
+        </div>
 
-  echo '<div class="wrap">';
-  echo '<h2>eBay Feeds For Wordpress Options</h2>'; ?>
+        <div class="pea_admin_main_wrap">
+            <div class="pea_admin_main_left">
+                <div class="pea_admin_signup">
+                    Want to know about updates to this plugin without having to log into your site every time? Want to know about other cool plugins we've made? Add your email and we'll add you to our very rare mail outs.
+
+                    <!-- Begin MailChimp Signup Form -->
+                    <div id="mc_embed_signup">
+                    <form action="http://peadig.us5.list-manage2.com/subscribe/post?u=e16b7a214b2d8a69e134e5b70&amp;id=eb50326bdf" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                    <div class="mc-field-group">
+                        <label for="mce-EMAIL">Email Address
+                    </label>
+                        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"><button type="submit" name="subscribe" id="mc-embedded-subscribe" class="pea_admin_green">Sign Up!</button>
+                    </div>
+                        <div id="mce-responses" class="clear">
+                            <div class="response" id="mce-error-response" style="display:none"></div>
+                            <div class="response" id="mce-success-response" style="display:none"></div>
+                        </div>	<div class="clear"></div>
+                    </form>
+                    </div>
+
+                    <!--End mc_embed_signup-->
+                </div>
   
- <form method="post" action="options.php">
+ <form method="post" action="options.php" id="options">
 
   <?php wp_nonce_field('update-options'); ?>
 
@@ -156,18 +194,72 @@ if (get_option('ebay-feeds-for-wordpress-link') == 1) { echo "checked"; } ?>
 </p>
 
 </form>
-
-<h3>Donate</h3>
-<p>I am quite lovely, and provide this software for free. If you fancy being equally, if not more lovely, then please donate to the upkeep of the plugin. I treat all that like us equally, but those who donate we <em>may</em> answer their questions quicker and we <em>may</em> take their feature requests more seriously. Just saying.</p>
-<div style="text-align: center;">
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="cmd" value="_s-xclick" />
-<input type="hidden" name="hosted_button_id" value="5T2Z52C3R6DD4" />
-<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" alt="PayPal — The safer, easier way to pay online." /> <img src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" alt="" width="1" height="1" border="0" /></form>
 </div>
 
-  
-  <?php echo '</div>';
+</div>
+            <div class="pea_admin_main_right">
+ <div class="pea_admin_box">
+                    <h2>Like this Plugin?</h2>
+<a href="<?php echo EXTEND_URL; ?>" target="_blank"><button type="submit" class="pea_admin_green">Rate this plugin	&#9733;	&#9733;	&#9733;	&#9733;	&#9733;</button></a><br><br>
+                    <div id="fb-root"></div>
+                    <script>(function(d, s, id) {
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) return;
+                      js = d.createElement(s); js.id = id;
+                      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=181590835206577";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                    <div class="fb-like" data-href="<?php echo PLUGIN_URL; ?>" data-send="true" data-layout="button_count" data-width="250" data-show-faces="true"></div>
+                    <br>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo PLUGIN_URL; ?>" data-text="Just been using <?php echo PLUGIN_NAME; ?> #WordPress plugin" data-via="<?php echo AUTHOR_TWITTER; ?>" data-related="WPBrewers">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                    <br>
+<a href="http://bufferapp.com/add" class="buffer-add-button" data-text="Just been using <?php echo PLUGIN_NAME; ?> #WordPress plugin" data-url="<?php echo PLUGIN_URL; ?>" data-count="horizontal" data-via="<?php echo AUTHOR_TWITTER; ?>">Buffer</a><script type="text/javascript" src="http://static.bufferapp.com/js/button.js"></script>
+<br>
+                    <div class="g-plusone" data-size="medium" data-href="<?php echo PLUGIN_URL; ?>"></div>
+                    <script type="text/javascript">
+                      window.___gcfg = {lang: 'en-GB'};
+
+                      (function() {
+                        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                        po.src = 'https://apis.google.com/js/plusone.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                      })();
+                    </script>
+                    <br>
+                    <su:badge layout="3" location="<?php echo PLUGIN_URL?>"></su:badge>
+                    <script type="text/javascript">
+                      (function() {
+                        var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+                        li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+                      })();
+                    </script>
+                </div>
+
+<center><a href="<?php echo DONATE_LINK; ?>" target="_blank"><img class="paypal" src="<?php echo plugins_url( 'paypal.gif' , __FILE__ ); ?>" width="147" height="47" title="Please Donate - it helps support this plugin!"></a></center>
+
+                <div class="pea_admin_box">
+                    <h2>About the Author</h2>
+
+                    <?php
+                    $default = "http://reviews.evanscycles.com/static/0924-en_gb/noAvatar.gif";
+                    $size = 70;
+                    $rhys_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( "rhys@rhyswynne.co.uk" ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+                    ?>
+
+                    <p class="pea_admin_clear"><img class="pea_admin_fl" src="<?php echo $rhys_url; ?>" alt="Rhys Wynne" /> <h3>Rhys Wynne</h3><br><a href="https://twitter.com/rhyswynne" class="twitter-follow-button" data-show-count="false">Follow @rhyswynne</a>
+<div class="fb-subscribe" data-href="https://www.facebook.com/rhysywynne" data-layout="button_count" data-show-faces="false" data-width="220"></div>
+</p>
+                    <p class="pea_admin_clear">Rhys Wynne is a Digital Marketing Consultant currently at 3 Door Digital and a freelance WordPress developer and blogger. His plugins have had a total of 100,000 downloads, and his premium plugins have generated four figure sums in terms of sales. Rhys likes rubbish football (supporting Colwyn Bay FC) and Professional Wrestling.</p>
+</div>
+
+
+            
+        </div>
+    </div>
+    
+<?php
 
 }
 
