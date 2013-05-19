@@ -33,25 +33,33 @@ $num = get_option('ebay-feeds-for-wordpress-default-number');
 
 include_once(ABSPATH . WPINC . '/rss.php');
 $rss = fetch_feed($url);
+if ($rss)
+{
 $rss_items = $rss->get_items(0, $num);
-
+}
 echo "<div class='ebayfeed'>";
+
+if ($rss_items)
+{
 foreach ($rss_items as $item ) {
-echo "<h4 class='ebayfeedtitle'><a ";
-if ($blank == "1")
-{
-	echo "target='_blank' ";
-}
-
-echo "'href='".$item->get_permalink()."'  class='ebayfeedlink'>".$item->get_title()."</a></h4>";
-if ($blank == "1")
-{
-echo $item->get_description();
-} else {
-    $newdescription = str_replace('target="_blank"', '', $item->get_description());
-    echo $newdescription;
-}
-
+    
+    echo "<h4 class='ebayfeedtitle'><a ";
+    
+    if ($blank == "1")
+    {
+    	echo "target='_blank' ";
+    }
+    
+    echo "'href='".$item->get_permalink()."'  class='ebayfeedlink'>".$item->get_title()."</a></h4>";
+    if ($blank == "1")
+    {
+    echo $item->get_description();
+    } else {
+        $newdescription = str_replace('target="_blank"', '', $item->get_description());
+        echo $newdescription;
+    }
+    
+    }
 }
 echo "</div>";
 if ($link == 1)
