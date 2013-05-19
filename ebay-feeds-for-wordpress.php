@@ -3,21 +3,9 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      0.9.1
+Version:      0.9.2
 Author:       Rhys Wynne
 Author URI:   http://bloggingdojo.com/
-
-Copyright (C) 2011, Rhys Wynne
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-Neither the name of Rhys Wynne nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Credit goes to Magpie RSS for RSS to PHP integration: http://magpierss.sourceforge.net/
 
 */
 
@@ -423,30 +411,40 @@ if ($dispurl == "" || $dispurl == "null")
 {
 $dispurl = get_option('ebay-feeds-for-wordpress-default');
 $disprss = fetch_feed($dispurl);
-$disprss_items = $disprss->get_items(0, $dispnum);
+if ($dispress)
+{
+    $disprss_items = $disprss->get_items(0, $dispnum);
+}
 
 } else {
 $dispurl = str_replace("&amp;", "&", $dispurl);
 $disprss = fetch_feed($dispurl);
-$disprss_items = $disprss->get_items(0, $dispnum);
+if ($dispress)
+{
+    $disprss_items = $disprss->get_items(0, $dispnum);
+}
 }
 
 
 $display .=  "<div class='ebayfeed'>";
-foreach ($disprss_items as $dispitem ) {
-$display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' ";
-if ($blank == "1")
-{
-	$display .= "target='_blank' ";
-}
-$display .= "href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
-if ($blank == "1")
-{
-$display .= $dispitem->get_description();
-} else {
-    $newdescription = str_replace('target="_blank"', '', $dispitem->get_description());
-    $display .= $newdescription;
-}
+if ($disprss_items) {
+    foreach ($disprss_items as $dispitem ) {
+        $display .= "<h4 class='ebayfeedtitle'><a class='ebayfeedlink' ";
+        if ($blank == "1")
+        {
+    	   $display .= "target='_blank' ";
+        }
+        
+        $display .= "href='".$dispitem->get_permalink()."'>".$dispitem->get_title()."</a></h4>";
+        
+        if ($blank == "1")
+        {
+            $display .= $dispitem->get_description();
+        } else {
+            $newdescription = str_replace('target="_blank"', '', $dispitem->get_description());
+            $display .= $newdescription;
+        }
+    }
 }
 $display .= "</div>";
 if ($link == 1)
