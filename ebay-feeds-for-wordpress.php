@@ -3,9 +3,9 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://winwar.co.uk/plugins/ebay-feeds-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      1.1
-Author:       Rhys Wynne
-Author URI:   http://www.rhyswynne.co.uk/
+Version:      1.2
+Author:       Winwar Media
+Author URI:   http://winwar.co.uk/
 
 */
 
@@ -446,9 +446,11 @@ if ($dispurl == "" || $dispurl == "null")
 {
 $dispurl = get_option('ebay-feeds-for-wordpress-default');
 $disprss = fetch_feed($dispurl);
-if ($dispress)
+if ($disprss)
 {
     $disprss_items = $disprss->get_items(0, $dispnum);
+} else {
+  echo "ERROR: " . $disprss->get_error_message();
 }
 
 } else {
@@ -458,6 +460,8 @@ $disprss = fetch_feed($dispurl);
 if (!is_wp_error($disprss))
 {
     $disprss_items = $disprss->get_items(0, $dispnum);
+} else {
+  echo "ERROR: " . $disprss->get_error_message();
 }
 
 }
@@ -490,7 +494,7 @@ if ($disprss_items) {
 $display .= "</div>";
 if ($link == 1)
 {
-	$display .= "<a href='http://bloggingdojo.com/wordpress-plugins/ebay-feeds-for-wordpress/'>eBay Feeds for WordPress</a> by <a href='http://www.bloggingdojo.com'>The Blogging Dojo</a><br/><br/>";
+	$display .= "<a href='http://winwar.co.uk/plugins/ebay-feeds-wordpress/'>eBay Feeds for WordPress</a> by <a href='http://winwar.co.uk/'>Winwar Media</a><br/><br/>";
 }
 
 
