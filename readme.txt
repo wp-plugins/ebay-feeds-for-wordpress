@@ -32,6 +32,12 @@ Why don't you?
 * [Send us an email](http://winwar.co.uk/contact-us/)! We like hearing from plugin users.
 * Check out our book, [bbPress Complete](http://winwar.co.uk/books/bbpress-complete/)
 
+= For Support =
+We offer support in two places:-
+
+* Support on the [WordPress.org Support Board](http://wordpress.org/support/plugin/inline-tweet-sharer)
+* A [priority support forum](http://winwar.co.uk/priority-support/), which offers same-day responses.
+
 == Changelog ==
 = 1.2 =
 * Changed to the new eBay logo.
