@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://winwar.co.uk/plugins/ebay-feeds-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      1.2
+Version:      1.3
 Author:       Winwar Media
 Author URI:   http://winwar.co.uk/
 
@@ -196,6 +196,22 @@ if (get_option('ebay-feeds-for-wordpress-link') == 1) { echo "checked"; } ?>
 
 </tr>
 
+<tr valign="top">
+
+<th scope="row" style="width:400px"><label>Fallback Text</label></th>
+
+<td>
+<?php
+
+  $fallback = get_option('ebay_feeds_for_wordpress_fallback');
+  
+  wp_editor( $fallback , 'ebay_feeds_for_wordpress_fallback' );
+
+?>
+<em>If for any reason, the feed doesn't work, this will be displayed instead. Use this to link to your eBay shop.</em>
+</td>
+
+</tr>
 
   </tbody>
 
@@ -271,7 +287,7 @@ if (get_option('ebay-feeds-for-wordpress-link') == 1) { echo "checked"; } ?>
                     <p class="pea_admin_clear"><img class="pea_admin_fl" src="<?php echo $rhys_url; ?>" alt="Rhys Wynne" /> <h3>Rhys Wynne</h3><br><a href="https://twitter.com/rhyswynne" class="twitter-follow-button" data-show-count="false">Follow @rhyswynne</a>
 <div class="fb-subscribe" data-href="https://www.facebook.com/rhysywynne" data-layout="button_count" data-show-faces="false" data-width="220"></div>
 </p>
-                    <p class="pea_admin_clear">Rhys Wynne is a Digital Marketing Consultant currently at 3 Door Digital and a freelance WordPress developer and blogger. His plugins have had a total of 100,000 downloads, and his premium plugins have generated four figure sums in terms of sales. Rhys likes rubbish football (supporting Colwyn Bay FC) and Professional Wrestling.</p>
+                    <p class="pea_admin_clear">Rhys Wynne is the Lead Developer at FireCask and a freelance WordPress developer and blogger. His plugins have had a total of 100,000 downloads, and his premium plugins have generated four figure sums in terms of sales. Rhys likes rubbish football (supporting Colwyn Bay FC) and Professional Wrestling.</p>
 </div>
 
 
@@ -291,6 +307,7 @@ function ebay_feeds_for_wordpress_options_process() { // whitelist options
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-link' );
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-link-open-blank' );
   register_setting( 'ebay-feeds-for-wordpress-group', 'ebay-feeds-for-wordpress-nofollow-links' );
+  register_setting( 'ebay-feeds-for-wordpress-group', 'ebay_feeds_for_wordpress_fallback' );
 }
 
 
@@ -450,7 +467,12 @@ if ($disprss)
 {
     $disprss_items = $disprss->get_items(0, $dispnum);
 } else {
-  echo "ERROR: " . $disprss->get_error_message();
+
+  $fallback .= get_option('ebay_feeds_for_wordpress_fallback');
+
+  $display .=  "<div class='ebayfeed'>";
+  $display .= $fallback;  
+  $display .=  "</div>";
 }
 
 } else {
@@ -461,7 +483,11 @@ if (!is_wp_error($disprss))
 {
     $disprss_items = $disprss->get_items(0, $dispnum);
 } else {
-  echo "ERROR: " . $disprss->get_error_message();
+  $fallback .= get_option('ebay_feeds_for_wordpress_fallback');
+
+  $display .=  "<div class='ebayfeed'>";
+  $display .= $fallback;  
+  $display .=  "</div>";
 }
 
 }
