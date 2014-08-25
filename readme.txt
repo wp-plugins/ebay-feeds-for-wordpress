@@ -10,7 +10,7 @@ Author URI:   http://www.winwar.co.uk/
 Contributors: rhyswynne
 Stable tag: trunk
 Requires at least: 3.0 
-Tested Up to: 3.9
+Tested Up to: 4.0
 Tags: ebay, ebay partner feeds, ebay partner network, rss feeds, affiliate marketing
 
 Output RSS to HTML with this simple plugin. Easy to install, set up and customise.
