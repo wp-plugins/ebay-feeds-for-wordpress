@@ -3,7 +3,7 @@
 Plugin Name:  Ebay Feeds for WordPress
 Plugin URI:   http://winwar.co.uk/plugins/ebay-feeds-wordpress/
 Description:  Parser of ebay RSS feeds to display on Wordpress posts, widgets and pages.
-Version:      1.5
+Version:      1.5.1
 Author:       Winwar Media
 Author URI:   http://winwar.co.uk/
 
@@ -308,9 +308,10 @@ function ebay_feeds_for_wordpress_options() {
               <h2>About the Author</h2>
 
               <?php
-              $default = "http://reviews.evanscycles.com/static/0924-en_gb/noAvatar.gif";
+              
               $size = 70;
-              $rhys_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( "rhys@rhyswynne.co.uk" ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+              $rhys_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( "rhys@rhyswynne.co.uk" ) ) ) . "?s=" . $size;
+              
               ?>
 
               <p class="pea_admin_clear"><img class="pea_admin_fl" src="<?php echo $rhys_url; ?>" alt="Rhys Wynne" /> <h3>Rhys Wynne</h3><br><a href="https://twitter.com/rhyswynne" class="twitter-follow-button" data-show-count="false">Follow @rhyswynne</a>
